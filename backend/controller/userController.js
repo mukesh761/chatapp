@@ -15,7 +15,7 @@ export const signupUser=async(req,res)=>{
     }
    const salt=await bcrypt.genSalt(10);
    const hash=await bcrypt.hash(password,salt);
-   const user=await userModel.create({
+   const newUser=await userModel.create({
     name,
     email,
     password:hash,
@@ -23,18 +23,15 @@ export const signupUser=async(req,res)=>{
    })
 
    //user without password
-   const newUser={
-    name:user.name,
-    email:user.email,
-    username:user.username,
-   }
+  
 
    const token=generateToken(newUser);
    console.log(token)
    res.cookie('token', token, {
     httpOnly: true,
     secure: true,
-    sameSite: 'None',
+    secure:  process.env.NODE_ENV === 'production',
+    //sameSite:'None',
    path: "/",  // Ensures the cookie works across subdomains
     maxAge: 3600000*24*30,
 });
@@ -53,7 +50,7 @@ export const loginUser=async (req,res)=>{
    try {
     const {username,email,password}=req.body;
 
-   let newUser=await userModel.findOne({$or:[{email}, {username}]});
+   let newUser=await userModel.findOne({email});
     if(!newUser){
         return res.json({message:"email or password is incorrect"})
     }
@@ -93,4 +90,16 @@ export const logoutUser=(req,res)=>{
     });
     res.json({message:"logout succesfull"})
     
+}
+
+export const fetchUser=async (req,res)=>{
+    try {
+        const user=await userModel.find({_id:{$ne:req.user._id}});
+        res.json({user});
+    } catch (error) {
+        if(error){
+            console.log(error);
+            res.json({message:error.message})
+        }
+    }
 }

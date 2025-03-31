@@ -9,6 +9,7 @@ import databse from "./database/db.js"
 
 //importing files
 import userRoute from "./routes/userRoutes.js"
+import messageRoute from "./routes/messageRoute.js"
 import { islogin } from "./middleware/islogin.js";
 
 //using env file
@@ -23,9 +24,8 @@ app.get("/",(req,res)=>{
     return res.json({message:"this is main route"})
 })
 app.use("/user",userRoute)
-app.get("/protectedroute",islogin,(req,res)=>{
-    res.json(req.user)
-})
+app.use("/message",messageRoute)
+
 
 app.listen(3000,()=>{
     console.log(`http://localhost:3000`);
