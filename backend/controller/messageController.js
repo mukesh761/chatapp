@@ -2,6 +2,7 @@ import messageSchema from "../schema/messageSchema.js"
 import conversationSchema from "../schema/conversationSchema.js"
 import message from "../schema/messageSchema.js";
 
+
 export const sendMessage=async(req,res)=>{
     try {
         const {message}=req.body;
@@ -12,7 +13,7 @@ export const sendMessage=async(req,res)=>{
          return    res.json({message:"required all fields"})
         }
         let conversation=await conversationSchema.findOne({participants:{$all:[sender,receiver]}}).populate("messages")
-        console.log(conversation)
+       
         if(!conversation){
             conversation=await conversationSchema.create({
                 participants:[receiver,sender]
@@ -25,9 +26,13 @@ export const sendMessage=async(req,res)=>{
             message,
         })
 
+
+
         await conversation.messages.push(newMessage);
         conversation.save();
-        console.log(conversation)
+      
+       
+       
         res.json({message:"message sent",newMessage,conversation})
 
     } catch (error) {

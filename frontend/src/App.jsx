@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import userContext from './pages/context/UserContext'
+import userContext from './pages/context/userContext.jsx'
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import Home from './pages/Home'
 
 
+
 function App() {
+  
   const {setislogin,setuser,islogin,user}=useContext(userContext)
   const fetchuser=()=>{
     const islogin=localStorage.getItem("islogin");
@@ -22,6 +24,8 @@ function App() {
    fetchuser()
   },[setislogin])
     
+ 
+  
 
   return (
     <>
@@ -36,4 +40,5 @@ function App() {
   )
 }
 
-export default App
+export default App;
+// export {socket};
