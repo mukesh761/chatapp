@@ -19,7 +19,7 @@ dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors({origin:"http://localhost:5173",
+app.use(cors({origin:"https://chatapp-frontend-6h5u.onrender.com",
 methods:["GET","POST","PUT","DELETE"],
 allowedHeaders:["Content-Type","Authorization"],
     credentials:true}))
