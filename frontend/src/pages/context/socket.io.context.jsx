@@ -9,7 +9,7 @@ export const SocketProvider=({children})=>{
     const user=JSON.parse(localStorage.getItem("user"))
     console.log(user)
     const [isonline, setisonline] = useState(false)
-    const socket = io("http://localhost:3000", {
+    const socket = io("https://chatapp-backend-qnvz.onrender.com", {
         withCredentials: true,
     });
     useEffect(() => {
