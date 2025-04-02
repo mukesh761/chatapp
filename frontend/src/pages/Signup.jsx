@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import axios from "axios"
 import { backend } from '../config.js'
-import userContext from './context/UserContext.jsx'
+import userContext from './context/userContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -24,7 +24,7 @@ const Signup = () => {
               password
           }
           const response=await axios.post(`${backend}/user/signup`,formdata,{withCredentials:true});
-          console.log(response.data);
+        
           localStorage.setItem("user",JSON.stringify(response.data.newUser));
           localStorage.setItem("islogin",true);
           setislogin(true);

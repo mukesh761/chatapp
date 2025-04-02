@@ -2,9 +2,15 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { backend } from '../config'
 import conversationContext from '../pages/context/conversationContext.jsx';
-
+import socketioContext from '../pages/context/socket.io.context.jsx';
 const LeftSide = () => {
+    const { socket } = useContext(socketioContext);
+  
+    const user=JSON.parse(localStorage.getItem("user"))
+   const [isonline, setisonline] = useState(false)
     const [allUsers, setallUsers] = useState([]);
+    const {lastmessage,setlastmessage}=useContext(conversationContext);
+
     // const [selectedUser, setselectedUser] = useState()
     const [allUsersfetch, setallUsersfetch] = useState([]);
     const [searchTerm, setsearchTerm] = useState("");
@@ -14,7 +20,7 @@ const LeftSide = () => {
         try {
             const response=await axios.get(`${backend}/user/getuser`,{withCredentials:true});
             const users=await response.data.user;
-            console.log(users);
+           
             setallUsersfetch(users)
             setallUsers(users);
         } catch (error) {
@@ -39,13 +45,18 @@ const LeftSide = () => {
       );
     
       setallUsers(filteredUsers);
-      console.log(searchTerm, filteredUsers);
+     
    }
 
-console.log(selectedUser)
+
+  
+
+ 
+
+
   return (
     <div>
-        <div className="w-96 h-full bg-gray-100 border-r flex items-start justify-center flex-col ">
+        <div className={selectedUser?"md:w-96 w-screen h- bg-gray-100 border-r md:flex items-start justify-center flex-col  hidden ":"md:w-96 w-screen h- bg-gray-100 border-r flex items-start justify-center flex-col"}>
             <form className="p-4 border-b w-full "  >
                 <input
                     type="text"
@@ -59,6 +70,7 @@ console.log(selectedUser)
                 {allUsers?.map((item,index)=>{
                     return(
                         <div key={index} >
+                           
                         <li className={selectedUser?._id==item._id?"p-4  mb-2 rounded-md bg-gray-200 cursor-pointer ":"p-4 bg-neutral-400 mb-2 rounded-md hover:bg-gray-100 cursor-pointer "} >
                         <div className="flex items-center" onClick={()=>{setselectedUser(item)}}>
                             <div className="avatar">
@@ -69,7 +81,7 @@ console.log(selectedUser)
                             <div className="ml-4">
                                 <p className="font-bold">{item.name}</p>
                                 <p className="text-sm text-gray-500">
-                                    last messages
+                                   
                                 </p>
                             </div>
                         </div>

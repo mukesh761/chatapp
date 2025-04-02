@@ -7,9 +7,9 @@ import RightSide from '../components/RightSide.jsx';
 
 const Home = () => {
   return (
-    <div className='h-screen '>
+    <div className='h-screen overflow-scroll'>
         <Navbar/>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between h-full'>
         <LeftSide/>
         <RightSide/>
         </div>

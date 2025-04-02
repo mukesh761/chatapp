@@ -8,9 +8,11 @@ import socketioContext from '../pages/context/socket.io.context.jsx';
 
 
 const RightSide = () => {
-    const { socket } = useContext(socketioContext)
+    const { socket,isonline,setisonline } = useContext(socketioContext);
+   
+    // console.log(isonline)
     const [messagebox, setmessagebox] = useState("")
-    const { selectedUser } = useContext(conversationContext);
+    const { selectedUser} = useContext(conversationContext);
     const [conversation, setconversation] = useState([])
     const { user } = useContext(userContext)
     const messageEndRef = useRef(null);
@@ -20,8 +22,11 @@ const RightSide = () => {
         try {
             const response = await axios.get(`${backend}/message/fetchconversation/${item}`, { withCredentials: true });
             const data = await response.data.conversation?.messages;
-            setconversation(data)
-            console.log(conversation)
+            if(data){
+
+                setconversation(data)
+            }
+           
         } catch (error) {
             if (error) {
                 console.log(error)
@@ -33,6 +38,18 @@ const RightSide = () => {
         if (selectedUser) {
             handleUserClick(selectedUser._id)
         }
+        socket.emit("register", user?._id);
+        socket.on("registered",(data)=>{
+            const keyToCheck = selectedUser?._id;
+           const checkonline= data.hasOwnProperty(keyToCheck);
+          
+            if(checkonline){
+                setisonline(true)
+            }
+            else{
+                setisonline(false)}
+           
+        })
     }, [selectedUser])
 
 
@@ -56,11 +73,12 @@ const RightSide = () => {
 
         try {
             const message = messagebox;
+            if(!message) return; // Prevent sending empty messages
             const response = await axios.post(`${backend}/message/send/${selectedUser._id}`, { message }, { withCredentials: true });
-            console.log(response.data)
+           
 
             const newMessage = response.data.newMessage;
-            if(conversation.length<0){
+            if(!conversation){
                 setconversation(newMessage)
             }
             else{
@@ -70,7 +88,7 @@ const RightSide = () => {
 
             // Emit the message to the socket server
             socket.emit("sendMessage", response.data.newMessage);
-            socket.emit("register", user._id)
+           
             setmessagebox("");
 
 
@@ -84,8 +102,8 @@ const RightSide = () => {
 
     useEffect(() => {
         socket.on("receiveMessage", (newMessage) => {
-            console.log("Received message:", newMessage);
-        if(conversation.length<0){
+          
+        if(!conversation){
             setconversation(newMessage)
         }
         else{
@@ -115,8 +133,9 @@ const RightSide = () => {
     }, [conversation]);
 
    
+   
     return (
-        <div className="h-[670px] w-screen flex items-center justify-center bg-gray-100">
+        <div className={selectedUser?"h-full w-screen md:flex items-center justify-center bg-gray-100  ":"h-[670px] w-screen md:flex items-center justify-center bg-gray-100 hidden"}>
             {!selectedUser ? (
                 <div className="text-center">
                     <h2 className="text-2xl font-semibold text-gray-700">No Conversation Selected</h2>
@@ -136,7 +155,7 @@ const RightSide = () => {
                             />
                             <div className="ml-3">
                                 <h2 className="text-lg font-semibold">{selectedUser?.username}</h2>
-                                <p className="text-sm text-gray-500">Online</p>
+                                <p className="text-sm text-gray-500">{isonline?"online":"offline"}</p>
                             </div>
                         </div>
                         <div className="dropdown dropdown-end">
@@ -159,7 +178,7 @@ const RightSide = () => {
                   
                         {/* Chat Messages */}
                         {conversation ? (
-                            <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+                            <div className="flex-1 overflow-y-auto p-4 ml-4 bg-gray-50">
                                 {conversation?.map((item, index) => {
                                     return (
                                         <div key={index}>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import { backend } from '../config';
-import userContext from './context/UserContext';
+import userContext from './context/userContext.jsx';
 import { use } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,12 +13,13 @@ const Login = () => {
     const onFormSubmit=async(e)=>{
         e.preventDefault();
       try {
+       
           const formdata={
               email,
               password
           }
           const response=await axios.post(`${backend}/user/login`,formdata,{withCredentials:true});
-          console.log(response.data);
+          
           localStorage.setItem("user",JSON.stringify(response.data.newUser));
           localStorage.setItem("islogin",true);
           setislogin(true);
