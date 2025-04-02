@@ -1,4 +1,4 @@
 import mongoose from "mongoose";
- const connection=mongoose.connect("mongodb://127.0.0.1:27017/chat_application")
+ const connection=mongoose.connect("mongodb+srv://mukesh737462:mukesh737462@cluster0.xtd8d.mongodb.net/chat-app")
  
 export default connection;
