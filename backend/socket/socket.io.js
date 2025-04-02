@@ -6,7 +6,7 @@ import {createServer} from "http";
 const httpServer=createServer(app);
 const io=new Server(httpServer,{
     cors:{
-        origin:"http://localhost:5173",
+        origin:"https://chatapp-frontend-6h5u.onrender.com",
         methods:["GET","POST"],
         credentials:true,
     }
