@@ -13,13 +13,15 @@ const io=new Server(httpServer,{
 });
 
 let users={};
+let disconnectedUsers={};
 
 io.on("connection",(socket)=>{
-    console.log("the user id is",socket.id);
-    console.log("a user connected",socket.id);
+  
 
     socket.on("register",(data)=>{
         users[data]=socket.id;
+      
+        socket.emit("registered",users);
        
     })
     
@@ -27,17 +29,24 @@ io.on("connection",(socket)=>{
         const {message,sender,receiver}=data;
         // users[receiver]=socket.id;
         const recipientSocketId=users[receiver];
-        console.log("recipient socket id",recipientSocketId);
+       
         if(recipientSocketId){
             io.to(recipientSocketId).emit("receiveMessage",data);
-            console.log("message sent to recipient",data);
+           
         }
        
        
     })
 
+   
+
     socket.on("disconnect",()=>{
-        console.log("user disconnected",socket.id);
+        const userId=Object.keys(users).find(key => users[key] === socket.id);
+        if (userId) {
+            delete users[userId];
+            disconnectedUsers[userId]=socket.id;
+        }
+       
     })
     
 })

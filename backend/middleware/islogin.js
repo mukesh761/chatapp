@@ -10,7 +10,9 @@ try {
         return res.json({message:"token not found"});
     }
     const decodedUser=jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decodedUser)
+    if(!decodedUser){
+        return res.json({message:"token not valid"});
+    }
     const user= await userModel.findOne({_id:decodedUser.userId});
    
     req.user=user;

@@ -26,12 +26,11 @@ export const signupUser=async(req,res)=>{
   
 
    const token=generateToken(newUser);
-   console.log(token)
+   
    res.cookie('token', token, {
     httpOnly: true,
     secure: true,
-    secure:  process.env.NODE_ENV === 'production',
-    //sameSite:'None',
+    sameSite: 'None',
    path: "/",  // Ensures the cookie works across subdomains
     maxAge: 3600000*24*30,
 });
@@ -62,11 +61,10 @@ export const loginUser=async (req,res)=>{
   
    res.cookie('token', token, {
     httpOnly: true,
-    secure:  process.env.NODE_ENV === 'production',
-    // sameSite: 'None',
+    secure: true,
+    sameSite: 'None',
    path: "/",  // Ensures the cookie works across subdomains
-   maxAge: 3600000*24*30,
-
+    maxAge: 3600000*24*30,
 });
    return res.json({message:"user logged in",newUser})
    } catch (error) {
@@ -82,11 +80,10 @@ export const loginUser=async (req,res)=>{
 export const logoutUser=(req,res)=>{
     res.cookie('token', " ", {
         httpOnly: true,
-        secure:  process.env.NODE_ENV === 'production',
-        // sameSite: 'None',
+        secure: true,
+        sameSite: 'None',
        path: "/",  // Ensures the cookie works across subdomains
-       maxAge: 0,
-    
+        maxAge: 0,
     });
     res.json({message:"logout succesfull"})
     
