@@ -135,7 +135,7 @@ const RightSide = () => {
    
    
     return (
-        <div className={selectedUser?"h-full w-screen md:flex items-center justify-center bg-gray-100  ":"h-[670px] w-screen md:flex items-center justify-center bg-gray-100 hidden"}>
+        <div className={selectedUser?"h-[calc(100vh-50px)] w-screen md:flex items-center justify-center bg-gray-100  ":"h-[670px] w-screen md:flex items-center justify-center bg-gray-100 hidden"}>
             {!selectedUser ? (
                 <div className="text-center">
                     <h2 className="text-2xl font-semibold text-gray-700">No Conversation Selected</h2>
