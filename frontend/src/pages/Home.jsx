@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div className='h-screen overflow-scroll'>
         <Navbar/>
-        <div className='flex items-center justify-between h-full'>
+        <div className='flex items-center justify-between h-full md:h-[calc(100vh-50px)]'>
         <LeftSide/>
         <RightSide/>
         </div>
