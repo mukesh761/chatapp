@@ -1,2 +1,2 @@
-export const backend= `http://localhost:3000`
+export const backend= `https://chatapp-backend-qnvz.onrender.com/`
   
