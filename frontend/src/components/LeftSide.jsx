@@ -56,7 +56,7 @@ const LeftSide = () => {
 
   return (
     <div>
-        <div className={selectedUser?"md:w-96 w-screen h- bg-gray-100 border-r md:flex items-start justify-center flex-col  hidden ":"md:w-96 w-screen h- bg-gray-100 border-r flex items-start justify-center flex-col"}>
+        <div className={selectedUser?"md:w-96 w-screen h-[calc(100vh-50px)] bg-gray-100 border-r md:flex items-start justify-center flex-col  hidden ":"md:w-96 w-screen h-[calc(100vh-50px)] bg-gray-100 border-r flex items-start justify-center flex-col"}>
             <form className="p-4 border-b w-full "  >
                 <input
                     type="text"
