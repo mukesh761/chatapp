@@ -20,11 +20,11 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 const corsOptions = {
-    origin: 'https://chatapp-frontend-6h5u.onrender.com',  // Replace with your frontend's URL (React dev server)
+    origin: 'https://tution-fee-1.onrender.com',  // Replace with your frontend's URL (React dev server)
     credentials: true,
    // Allow credentials (cookies)
  };
- // app.use(cors(corsOptions))
+ app.use(cors(corsOptions))
 
 
 app.get("/",(req,res)=>{
