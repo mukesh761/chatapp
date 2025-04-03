@@ -73,6 +73,7 @@ const RightSide = () => {
 
         try {
             const message = messagebox;
+            setmessagebox("");
             if(!message) return; // Prevent sending empty messages
             const response = await axios.post(`${backend}/message/send/${selectedUser._id}`, { message }, { withCredentials: true });
            
@@ -89,7 +90,7 @@ const RightSide = () => {
             // Emit the message to the socket server
             socket.emit("sendMessage", response.data.newMessage);
            
-            setmessagebox("");
+            
 
 
             // Clear the input field after sending the message
