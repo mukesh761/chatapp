@@ -25,7 +25,7 @@ const corsOptions = {
    // Allow credentials (cookies)
  };
  app.use(cors(corsOptions))
-))
+
 
 app.get("/",(req,res)=>{
     return res.json({message:"this is main route"})
