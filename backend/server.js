@@ -19,10 +19,13 @@ dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors({origin:"https://chatapp-frontend-6h5u.onrender.com",
-methods:["GET","POST","PUT","DELETE"],
-allowedHeaders:["Content-Type","Authorization"],
-    credentials:true}))
+const corsOptions = {
+    origin: 'https://chatapp-frontend-6h5u.onrender.com',  // Replace with your frontend's URL (React dev server)
+    credentials: true,
+   // Allow credentials (cookies)
+ };
+ app.use(cors(corsOptions))
+))
 
 app.get("/",(req,res)=>{
     return res.json({message:"this is main route"})
