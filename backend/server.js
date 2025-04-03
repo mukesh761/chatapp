@@ -24,7 +24,7 @@ const corsOptions = {
     credentials: true,
    // Allow credentials (cookies)
  };
- app.use(cors(corsOptions))
+ // app.use(cors(corsOptions))
 
 
 app.get("/",(req,res)=>{
